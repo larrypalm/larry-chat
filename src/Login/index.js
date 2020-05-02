@@ -1,6 +1,7 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useContext } from 'react';
 import styled from '@emotion/styled';
 import { auth } from './firebase.js';
+import { UserContext } from 'Contexts/UserContext';
 
 const LoginWrapper = styled('div')`
     display: flex;
@@ -102,6 +103,9 @@ const Login = () => {
             dispatch({ type: 'error', error: 'Invalid user or password' });
         }
     };
+
+    const val = useContext(UserContext);
+    console.log(val);
 
     return (
         <LoginWrapper>
