@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer, useContext } from 'react';
 import styled from '@emotion/styled';
-import { auth } from './firebase.js';
-import { UserContext } from 'Contexts/UserContext';
+import { auth } from 'libs/firebase.js';
+import { AppContext } from 'state/contexts/AppContext';
+import UserReducer from 'state/reducers/UserReducer';
 
 const LoginWrapper = styled('div')`
     display: flex;
@@ -21,52 +22,6 @@ const Header = styled('h1')``;
 
 const Button = styled('button')``;
 
-const loginReducer = (state, action) => {
-    switch (action.type) {
-
-        case 'field': {
-            return {
-                ...state,
-                [action.field]: action.value
-            };
-        }
-        case 'login': {
-            return {
-                ...state,
-                loading: true,
-            };
-        }
-        case 'success': {
-            return {
-                ...state,
-                loading: false,
-                loggedIn: true,
-            };
-        }
-        case 'logout': {
-            return {
-                ...state,
-                loading: true,
-                loggedIn: false,
-                username: '',
-                password: '',
-            };
-        }
-        case 'error': {
-            return {
-                ...state,
-                error: action.error,
-                loading: false,
-                loggedIn: false,
-            };
-        }
-        default:
-            break;
-    }
-
-    return state;
-};
-
 const initState = {
     username: '',
     password: '',
@@ -76,7 +31,7 @@ const initState = {
 };
 
 const Login = () => {
-    const [state, dispatch] = useReducer(loginReducer, initState);
+    const [state, dispatch] = useReducer(UserReducer, initState);
     const { username, password, error, loading, loggedIn } = state;
     // auth.signInWithEmailAndPassword('lol@lol.se', 'heasdasdasdsaaj');
     // const res = auth.createUserWithEmailAndPassword('lol@lol.se', 'heasdasdasdsaaj');
@@ -104,9 +59,8 @@ const Login = () => {
         }
     };
 
-    const val = useContext(UserContext);
-    console.log(val);
-
+    const val = useContext(AppContext);
+    // console.log(val)
     return (
         <LoginWrapper>
             <Header>

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import Login from './Login';
 import styled from '@emotion/styled';
-import { UserContext } from 'Contexts/UserContext';
+import AppProvider from 'state/providers/AppProvider';
+import { StoreContext } from 'state/contexts/StoreContext';
+// import { Store } from 'state/store';
+
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -10,30 +13,33 @@ import {
 	useRouteMatch,
 	useParams
   } from 'react-router-dom';
+import Site from './Site';
 
-const Body = styled('div')`
-    width: 100%;
-    min-height: 100vh;
-    min-width: 100%;
-    max-width: 2000px;
-`;
+const fetchDataAction = async () => {
+
+};
 
 const App = () => {
+	const store = useContext(StoreContext);
+	console.log(store)
+	useEffect(() => {
+		fetchDataAction();
+	}, []);
+
 	return (
 		<Router>
-			<UserContext.Provider value="hejsna">
-				<Body className="body">
-					<nav>
-						<Link to="/">About</Link>
-						<Link to="/gifs">Gifs</Link>
-					</nav>
-					<Switch>
-						<Route exact path="/" component={Login} />
-						<Route exact path="/gifs" component={Login} />
-						<Route exact path="/user/:name" component={Login} />
-					</Switch>
-				</Body>
-			</UserContext.Provider>
+			<Site />
+			{/* <Body className="body">
+				<nav>
+					<Link to="/">About</Link>
+					<Link to="/gifs">Gifs</Link>
+				</nav>
+				<Switch>
+					<Route exact path="/" component={Login} />
+					<Route exact path="/gifs" component={Login} />
+					<Route exact path="/user/:name" component={Login} />
+				</Switch>
+			</Body> */}
 		</Router>
 	);
 };
